@@ -1,0 +1,53 @@
+Public Sub DescricaoSI()
+
+    'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+
+    'On Error GoTo myerr 'Caso houver, pula para mensagem de erro.
+    
+    'Inicio script SAP. Substituir Session. por objSess.
+
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/nwctm"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtWCSWAPI-WAPINR").Text = TextBox3.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    TextBox12.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0R:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6000/tabsTABSTR1F/tabpTAB1/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR1F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8320/ctxtWCSCCOBJ-TPLNR").Text
+    TextBox2.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR2F:SAPLWCGN:7410/subSUBSCR0R:SAPLWCGN:6115/subSUBSCR0F:SAPLWCGN:6005/tabsTABSTR2F/tabpTAB1-02F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR1F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8360/subLONGTXT:SAPLWCGS:5100/cntlLONGTXT/shell").Text
+    TextBox1.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0L:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6015/tabsTABSTR4F/tabpTAB1-04F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR1F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8200/txtWCSHEADER-STXT").Text
+    TextBox24.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0L:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6015/tabsTABSTR4F/tabpTAB1-04F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR2F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8310/txtWCSWAPI-SYSST").Text
+    TextBox25.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0L:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6015/tabsTABSTR4F/tabpTAB1-04F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR2F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8310/txtWCSWAPI-USRST").Text
+    TextBox26.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0L:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6015/tabsTABSTR4F/tabpTAB1-04F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR2F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8310/ctxtWCSHEADER-DATEFR").Text
+    TextBox27.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0L:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6015/tabsTABSTR4F/tabpTAB1-04F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR2F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8310/ctxtWCSHEADER-TIMEFR").Text
+    TextBox28.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0L:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6015/tabsTABSTR4F/tabpTAB1-04F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR2F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8310/ctxtWCSHEADER-DATETO").Text
+    TextBox29.Value = session.findById("wnd[0]/usr/subD2000:SAPLWCGN:7300/subSUBSCR1F:SAPLWCGN:7410/subSUBSCR0L:SAPLWCGN:6110/subSUBSCR0F:SAPLWCGN:6015/tabsTABSTR4F/tabpTAB1-04F/ssubTABSCR1F:SAPLWCGN:6350/subSUBSCR2F:SAPLWCGN:6450/subSUBSCR0F:SAPLWCFA:8310/ctxtWCSHEADER-TIMETO").Text
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    'Fim script SAP.
+
+    'Exit Sub
+
+'myerr:
+        'MsgBox "Falha na execução"
+  
+End Sub
+
