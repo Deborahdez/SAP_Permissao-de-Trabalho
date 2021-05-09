@@ -1,0 +1,613 @@
+
+Public Sub CommandButton1_Click()
+
+    Dim NPt As String
+    Dim MsgResult As Integer
+    Dim MsgResult1 As Integer
+    
+    'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+    
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/nzwcmpt01"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-TPLNR").Text = TextBox12.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/cntlTEXTO_LONGO/shellcont/shell").Text = TextBox2.Value
+    session.findById("wnd[0]/usr/txtZWCT_PERM_TRAB-DESCRICAO").Text = TextBox1.Value
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-DATA_INI").Text = TextBox26.Value
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-HORA_INI").Text = TextBox27.Value
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-DATA_FIM").Text = TextBox28.Value
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-HORA_FIM").Text = TextBox29.Value
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB1/ssubABAS_SCA:SAPMZWCM_PT:9001/btnADD_DA").press
+    session.findById("wnd[1]/usr/ctxtWA_LIST_DA-TIPO_DOC_ASS").Text = "SI"
+    session.findById("wnd[1]/usr/ctxtWA_LIST_DA-TIPO_DOC_ASS").CaretPosition = 2
+    session.findById("wnd[1]/tbar[0]/btn[5]").press
+    session.findById("wnd[1]/usr/ctxtWA_LIST_DA-CODIGO_DOC").Text = TextBox3.Value
+    session.findById("wnd[1]/usr/ctxtWA_LIST_DA-CODIGO_DOC").SetFocus
+    session.findById("wnd[1]/usr/ctxtWA_LIST_DA-CODIGO_DOC").CaretPosition = 12
+    session.findById("wnd[1]/tbar[0]/btn[5]").press
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2").Select
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell 0, "AVAL_PROPRIO_CONTR", "P"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").TriggerModified
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell 0, "PERNR", TextBox4.Value
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").TriggerModified
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").CurrentCellColumn = "ORGAO"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").PressF4
+    session.findById("wnd[1]/tbar[0]/btn[71]").press
+    session.findById("wnd[2]/usr/chkSCAN_STRING-START").Selected = False
+    session.findById("wnd[2]/usr/chkSCAN_STRING-RANGE").Selected = False
+    session.findById("wnd[2]/usr/txtRSYSF-STRING").Text = TextBox14.Value
+    session.findById("wnd[2]/usr/chkSCAN_STRING-START").SetFocus
+    session.findById("wnd[2]/tbar[0]/btn[0]").press
+    session.findById("wnd[3]/usr/lbl[6,2]").SetFocus
+    session.findById("wnd[3]/usr/lbl[6,2]").CaretPosition = 3
+    session.findById("wnd[3]").SendVKey 2
+    session.findById("wnd[1]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").CurrentCellColumn = "TURNO"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell 0, "TURNO", TextBox9.Value
+
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB3").Select
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB3/ssubABAS_SCA:SAPMZWCM_PT:9003/cntlCC_OPERACAO/shellcont/shell").Text = TextBox6.Value
+
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB4").Select
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB4/ssubABAS_SCA:SAPMZWCM_PT:9004/cntlCC_MANUTENCAO/shellcont/shell").Text = TextBox7.Value
+    
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB5").Select
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB5/ssubABAS_SCA:SAPMZWCM_PT:9005/cntlCC_AT_TEMP/shellcont/shell").Text = TextBox8.Value
+    
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+    
+    NPt = session.findById("wnd[0]/sbar").Text
+    NPt = Mid(NPt, 29, 13)
+    TextBox11.Value = NPt
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+
+    MsgResult = MsgBox("Criada:  " & NPt & Chr(13) & "Deseja salvar em PDF ?", vbQuestion + vbYesNo, "Permissão de Trabalho")
+    
+    If MsgResult = vbYes Then
+        Dim Caminho As String
+        Dim xDirect$, xFname$, InitialFoldr$
+
+        InitialFoldr$ = "C:\"
+ 
+        With Application.FileDialog(msoFileDialogFolderPicker)
+        .InitialFileName = Application.DefaultFilePath & "\"
+        .Title = "Favor Selecionar uma Pasta para salvar a PT"
+        .InitialFileName = InitialFoldr$
+        .Show
+            If .SelectedItems.Count <> 0 Then
+                xDirect$ = .SelectedItems(1) & "\"
+                xFname$ = Dir(xDirect$, 7)
+                Caminho = xDirect
+            End If
+        End With
+        
+        'Criando o objeto SAP
+        'Dim SapGuiAuto
+        If Not IsObject(SAP_APP) Then
+           Set SapGuiAuto = GetObject("SAPGUI")
+           Set SAP_APP = SapGuiAuto.GetScriptingEngine
+        End If
+        'Conexão com o SAP
+        If Not IsObject(Conexão) Then
+           Set Conexão = SAP_APP.Children(0)
+        End If
+        
+        'Iniciando sessão com o SAP
+        If Not IsObject(session) Then
+           Set session = Conexão.Children(0)
+        End If
+        
+        'Habilitando script
+        If IsObject(WScript) Then
+           WScript.ConnectObject session, "on"
+           WScript.ConnectObject SapGuiAuto, "on"
+        End If
+         
+        session.findById("wnd[0]").maximize
+        session.findById("wnd[0]/tbar[0]/okcd").Text = "/NZWCMPT03"
+        session.findById("wnd[0]/tbar[0]/btn[0]").press
+        session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = NPt
+        session.findById("wnd[0]/tbar[0]/btn[0]").press
+        session.findById("wnd[0]/mbar/menu[0]/menu[1]").Select
+        session.findById("wnd[1]/usr/ctxtDY_PATH").Text = Caminho
+        session.findById("wnd[1]/usr/ctxtDY_PATH").SetFocus
+        session.findById("wnd[1]/usr/ctxtDY_PATH").CaretPosition = 26
+        session.findById("wnd[1]/tbar[0]/btn[11]").press
+        session.findById("wnd[0]/tbar[0]/btn[3]").press
+        session.findById("wnd[0]/tbar[0]/btn[3]").press
+        
+        MsgBox "A" & NPt & " foi salva em: " & Chr(13) & Caminho, vbInformation, "Imprimir PT"
+        
+        MsgResult1 = MsgBox("Desejar enviar a  " & NPt & " por e-mail?", vbQuestion + vbYesNo, "Enviar PT")
+        
+        If MsgResult1 = vbYes Then
+        
+            Call enviar_email(NPt, Caminho, usuario, email)
+        
+        Else
+        
+        End If
+    Else
+        
+    End If
+
+End Sub
+
+Private Sub CommandButton10_Click()
+    Sobre.Show
+End Sub
+
+Public Sub CommandButton11_Click()
+    
+    Dim Caminho As String
+    Dim xDirect$, xFname$, InitialFoldr$
+    
+    InitialFoldr$ = "C:\"
+    
+    With Application.FileDialog(msoFileDialogFolderPicker)
+    .InitialFileName = Application.DefaultFilePath & "\"
+    .Title = "Favor Selecionar uma Pasta para salvar a PT"
+    .InitialFileName = InitialFoldr$
+    .Show
+        If .SelectedItems.Count <> 0 Then
+            xDirect$ = .SelectedItems(1) & "\"
+            xFname$ = Dir(xDirect$, 7)
+            Caminho = xDirect
+        End If
+    End With
+    
+    'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+     
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/NZWCMPT03"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = TextBox11.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/mbar/menu[0]/menu[1]").Select
+    session.findById("wnd[1]/usr/ctxtDY_PATH").Text = Caminho
+    session.findById("wnd[1]/usr/ctxtDY_PATH").SetFocus
+    session.findById("wnd[1]/usr/ctxtDY_PATH").CaretPosition = 26
+    session.findById("wnd[1]/tbar[0]/btn[11]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    
+    Call enviar_email(TextBox11.Value, Caminho, usuario, email)
+    
+    MsgBox "A " & NPt & " foi salva em: " & Chr(13) & Caminho, vbInformation, "Imprimir PT"
+
+End Sub
+
+Private Sub CommandButton12_Click()
+    
+    Dim Caminho As String
+    Dim NPt As String
+    
+    NPt = TextBox11.Value
+      
+    'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+     
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/NZWCMPT03"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = NPt
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/mbar/menu[0]/menu[1]").Select
+    Caminho = session.findById("wnd[1]/usr/ctxtDY_PATH").Text
+    session.findById("wnd[1]/usr/ctxtDY_PATH").SetFocus
+    session.findById("wnd[1]/usr/ctxtDY_PATH").CaretPosition = 26
+    session.findById("wnd[1]/tbar[0]/btn[11]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    
+    Call enviar_email(NPt, Caminho, usuario, email)
+    
+    Kill (Caminho & TextBox11.Value & ".PDF")
+    
+    'MsgBox "A " & UCase(NPt) & " foi enviada por e-mail!", vbInformation, "Envio de e-mail"
+    
+End Sub
+
+Private Sub CommandButton3_Click()
+
+        'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+         
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/NZWCMPT02"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = TextBox11.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-STATUS").SetFocus
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-STATUS").CaretPosition = 4
+    session.findById("wnd[0]").SendVKey 4
+    session.findById("wnd[1]/usr/lbl[1,7]").SetFocus
+    session.findById("wnd[1]/usr/lbl[1,7]").CaretPosition = 1
+    session.findById("wnd[1]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2").Select
+    TextBox15.Value = session.findById("wnd[0]/usr/txtP_STATUS_TXT").Text
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+    
+    ListView1.ListItems.Clear
+    Call preencherResp
+    
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    
+End Sub
+
+Private Sub CommandButton4_Click()
+
+        'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+         
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/NZWCMPT02"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = TextBox11.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-STATUS").SetFocus
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-STATUS").CaretPosition = 4
+    session.findById("wnd[0]").SendVKey 4
+    session.findById("wnd[1]/usr/lbl[1,8]").SetFocus
+    session.findById("wnd[1]/usr/lbl[1,8]").CaretPosition = 1
+    session.findById("wnd[1]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2").Select
+    TextBox15.Value = session.findById("wnd[0]/usr/txtP_STATUS_TXT").Text
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+    'session.findById("wnd[1]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/cntlTEXTO_LONGO/shellcont/shell").SetUnprotectedTextPart 0, "CANCELDA!." + vbCr + ""
+    session.findById("wnd[0]/usr/cntlTEXTO_LONGO/shellcont/shell").SetSelectionIndexes 113, 113
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+    session.findById("wnd[1]/tbar[0]/btn[0]").press
+    
+    ListView1.ListItems.Clear
+    Call preencherResp
+    
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+
+End Sub
+
+Private Sub CommandButton5_Click()
+
+        'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+         
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/NZWCMPT02"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = TextBox11.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-STATUS").SetFocus
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-STATUS").CaretPosition = 4
+    session.findById("wnd[0]").SendVKey 4
+    session.findById("wnd[1]/usr/lbl[1,9]").SetFocus
+    session.findById("wnd[1]/usr/lbl[1,9]").CaretPosition = 1
+    session.findById("wnd[1]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2").Select
+    TextBox15.Value = session.findById("wnd[0]/usr/txtP_STATUS_TXT").Text
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+    
+    ListView1.ListItems.Clear
+    Call preencherResp
+    
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+
+End Sub
+
+Public Sub CommandButton7_Click()
+
+    Dim opcao As String
+    Dim ln As Integer
+    opcao = TextBox21.Value
+    
+    Select Case opcao
+        Case Is = "P01": ln = 0
+        Case Is = "P02": ln = 1
+        Case Is = "P03": ln = 2
+        Case Is = "P05": ln = 3
+        Case Is = "P10": ln = 4
+    Case Else
+    
+        MsgBox "Desculpe! Operação ainda não permitida via aplicativo, favor editar no SAP ", vbexclmation, "Permissão de Trabalho"
+    
+    End Select
+    
+    
+    'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+        Set SapGuiAuto = GetObject("SAPGUI")
+        Set SAP_APP = SapGuiAuto.GetScriptingEngine
+     End If
+    'Conexão com o SAP
+     If Not IsObject(Conexão) Then
+        Set Conexão = SAP_APP.Children(0)
+    End If
+
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+        Set session = Conexão.Children(0)
+    End If
+
+    'Habilitando script
+    If IsObject(WScript) Then
+        WScript.ConnectObject session, "on"
+        WScript.ConnectObject SapGuiAuto, "on"
+    End If
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/nzwcmpt02"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = TextBox11.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2").Select
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell ln, "DATA", TextBox16.Value
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").SetCurrentCell ln, "HORA"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").TriggerModified
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell ln, "HORA", TextBox17.Value
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").SetCurrentCell ln, "AVAL_PROPRIO_CONTR"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").TriggerModified
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell ln, "AVAL_PROPRIO_CONTR", TextBox18.Value
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").SetCurrentCell ln, "PERNR"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").TriggerModified
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell ln, "PERNR", TextBox19.Value
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").SetCurrentCell ln, "ORGAO"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").TriggerModified
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").SetCurrentCell ln, "ORGAO"
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").PressF4
+    'session.findById("wnd[1]/usr/lbl[6," & TextBox23.Value & "]").SetFocus
+    'session.findById("wnd[1]/usr/lbl[6," & TextBox23.Value & "]").CaretPosition = 2
+    'session.findById("wnd[1]/tbar[0]/btn[0]").press
+    session.findById("wnd[1]/tbar[0]/btn[71]").press
+    session.findById("wnd[2]/usr/chkSCAN_STRING-START").Selected = False
+    session.findById("wnd[2]/usr/chkSCAN_STRING-RANGE").Selected = False
+    session.findById("wnd[2]/usr/txtRSYSF-STRING").Text = TextBox14.Value
+    session.findById("wnd[2]/usr/chkSCAN_STRING-START").SetFocus
+    session.findById("wnd[2]/tbar[0]/btn[0]").press
+    session.findById("wnd[3]/usr/lbl[6,2]").SetFocus
+    session.findById("wnd[3]/usr/lbl[6,2]").CaretPosition = 3
+    session.findById("wnd[3]").SendVKey 2
+    session.findById("wnd[1]/tbar[0]/btn[0]").press
+    'session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").CurrentCellColumn = "TURNO"
+    'session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").ModifyCell ln, "TURNO", TextBox9.Value
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+    
+    ListView1.ListItems.Clear
+    Call preencherResp
+    
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+       
+End Sub
+Private Sub ComboBox1_Change()
+
+    If ComboBox1.Value <> "" Then
+    
+        Dim linha As Integer
+        Dim tabela As Range
+    
+        usuario = ComboBox1.Value
+        Sheets("USUÁRIOS").Select
+        Set tabela = Range("A1").CurrentRegion
+    
+        linha = tabela.Columns(1).Find(usuario, , , xlPart).Row
+    
+        nome = Cells(linha, 1).Value
+        id_sap = Cells(linha, 2).Value
+        orgao = Cells(linha, 4).Value
+        
+        TextBox16.Value = Format(Date, "DD.MM.YYYY")
+        TextBox18.Value = "P"
+        TextBox19.Value = id_sap
+        TextBox20.Value = orgao
+    
+    Else
+    
+        TextBox16.Value = ""
+        TextBox18.Value = ""
+        TextBox19.Value = ""
+        TextBox20.Value = ""
+    
+    End If
+    
+    
+End Sub
+
+Public Sub CommandButton9_Click()
+    ActiveWorkbook.Close 'Savechanges:=True
+End Sub
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Label19_Click()
+
+End Sub
+
+Public Sub ListView1_ItemClick(ByVal Item As MSComctlLib.ListItem)
+
+    TextBox21.Value = ListView1.SelectedItem
+    TextBox22.Value = ListView1.SelectedItem.ListSubItems.Item(1)
+    TextBox16.Value = ListView1.SelectedItem.ListSubItems.Item(2)
+    TextBox17.Value = ListView1.SelectedItem.ListSubItems.Item(3)
+    TextBox18.Value = ListView1.SelectedItem.ListSubItems.Item(4)
+    TextBox19.Value = ListView1.SelectedItem.ListSubItems.Item(5)
+    ComboBox1.Value = ListView1.SelectedItem.ListSubItems.Item(6)
+    TextBox20.Value = ListView1.SelectedItem.ListSubItems.Item(8)
+           
+End Sub
+
+
+Public Sub TextBox13_Change()
+    
+    Dim linha As Integer
+    Dim tabela As Range
+    
+    usuario = TextBox13.Value
+    Sheets("USUÁRIOS").Select
+    Set tabela = Range("A1").CurrentRegion
+    
+    linha = tabela.Columns(1).Find(usuario, , , xlWhole).Row
+    
+    nome = Cells(linha, 1).Value
+    id_sap = Cells(linha, 2).Value
+    login = Cells(linha, 3).Value
+    orgao = Cells(linha, 4).Value
+    id_orgao = Cells(linha, 5).Value
+    email = Cells(linha, 7).Value
+    
+    TextBox13.Value = nome
+    TextBox4.Value = id_sap
+    TextBox14.Value = orgao
+    TextBox23.Value = id_orgao
+    
+End Sub
+
+Private Sub TextBox14_Change()
+
+End Sub
+
+Private Sub UserForm_Activate()
+    'SAP_PT.Height = (Application.Height * 0.77)
+End Sub
+
+Public Sub UserForm_Initialize()
+
+    TextBox13.Value = Application.UserName
+    lin = 2
+    Do Until Sheets("USUÁRIOS").Cells(lin, 1) = ""
+        ComboBox1.AddItem Sheets("USUÁRIOS").Cells(lin, 1)
+        lin = lin + 1
+    Loop
+    
+End Sub
+
+Public Sub TextBox3_AfterUpdate()
+    Call DescricaoSI
+End Sub
+Private Sub CommandButton2_Click()
+    ListView1.ListItems.Clear
+    Call preencherResp
+End Sub
+     
