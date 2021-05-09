@@ -1,0 +1,94 @@
+     
+Public Sub preencherResp()
+     
+    Dim i As Long, j As Long, col_ctn As Long, lastRow As Long
+    Dim lista As ListItem
+     
+    'On Error GoTo ErrHandler
+     
+    'define os cabeçalhos da coluna
+    With ListView1
+        With .ColumnHeaders
+            .Clear 'Supprime les anciens entêtes
+             
+             'adiciona colunas
+            .Add , , "Tipo da Etapa", 30, lvwColumnLeft
+            .Add , , "Descrição", 180, lvwColumnLeft
+            .Add , , "Data", 60, lvwColumnLeft
+            .Add , , "Hora", 50, lvwColumnLeft
+            .Add , , "P/C", 25, lvwColumnCenter
+            .Add , , "Matrícula", 60, lvwColumnCenter
+            .Add , , "Nome", 180, lvwColumnLeft
+            .Add , , "CPF", 70, lvwColumnLeft
+            .Add , , "Orgão", 40, lvwColumnCenter
+            .Add , , "Turno", 30, lvwColumnCenter
+            .Add , , "Fornecedor", 140, lvwColumnCenter
+            .Add , , "Banco", 30, lvwColumnCenter
+             
+        End With
+         
+        .View = lvwReport 'exibir em modo de relatório
+        .Gridlines = True 'exibir linhas grade
+        .FullRowSelect = True 'Sélection des lignes comlètes
+    End With
+         
+        'Criando o objeto SAP
+    'Dim SapGuiAuto
+    If Not IsObject(SAP_APP) Then
+       Set SapGuiAuto = GetObject("SAPGUI")
+       Set SAP_APP = SapGuiAuto.GetScriptingEngine
+    End If
+    'Conexão com o SAP
+    If Not IsObject(Conexão) Then
+       Set Conexão = SAP_APP.Children(0)
+    End If
+    
+    'Iniciando sessão com o SAP
+    If Not IsObject(session) Then
+       Set session = Conexão.Children(0)
+    End If
+    
+    'Habilitando script
+    If IsObject(WScript) Then
+       WScript.ConnectObject session, "on"
+       WScript.ConnectObject SapGuiAuto, "on"
+    End If
+         
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/tbar[0]/okcd").Text = "/nzwcmpt03"
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    session.findById("wnd[0]/usr/ctxtZWCT_PERM_TRAB-PERM_TRABALHO").Text = TextBox11.Value
+    session.findById("wnd[0]/tbar[0]/btn[0]").press
+    TextBox15.Value = session.findById("wnd[0]/usr/txtP_STATUS_TXT").Text
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2").Select
+    session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").SetCurrentCell 4, "FLAG_BANCO"
+
+    lastRow = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").RowCount
+
+    For i = 0 To lastRow - 1
+                        
+        Set lista = ListView1.ListItems.Add(, , session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "ETAPA"))
+        lista.SubItems(1) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "ETAPA_DESC")
+        lista.SubItems(2) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "DATA")
+        lista.SubItems(3) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "HORA")
+        lista.SubItems(4) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "AVAL_PROPRIO_CONTR")
+        lista.SubItems(5) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "PERNR")
+        lista.SubItems(6) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "ENAME")
+        lista.SubItems(7) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "CPF_NR")
+        lista.SubItems(8) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "ORGAO")
+        lista.SubItems(9) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "TURNO")
+        lista.SubItems(10) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "LIFNR")
+        lista.SubItems(11) = session.findById("wnd[0]/usr/tabsABAS/tabpTAB2/ssubABAS_SCA:SAPMZWCM_PT:9002/cntlCC_RESPONSABILIDADE/shellcont/shell").GetCellValue(i, "FLAG_BANCO")
+
+    Next
+    
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+    session.findById("wnd[0]/tbar[0]/btn[3]").press
+
+'ErrHandler:
+     
+    'exibe uma mensagem de erro e executa a rotina para liberar os recursos
+    'MsgBox "ERRO: " & Err.Description, vbexclmation, "Erro"
+    'Resume EndProc
+     
+End Sub
